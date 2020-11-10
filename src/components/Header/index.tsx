@@ -1,7 +1,9 @@
 import React from "react";
-import s from './Header.module.scss';
-
+import {A} from "hookrouter";
+import cn from 'classnames';
 import {ReactComponent as PokemonLogoSvg} from "./assets/Logo.svg";
+
+import s from './Header.module.scss';
 
 interface IMenu {
     id: number
@@ -12,22 +14,22 @@ const MENU: IMenu[] = [
     {
         id: 1,
         value: 'Home',
-        link: '#',
+        link: '/',
     },
     {
         id: 2,
         value: 'Pokédex',
-        link: '#',
+        link: '/pokedex',
     },
     {
         id: 3,
         value: 'Legendaries',
-        link: '#',
+        link: '/legendaries',
     },
     {
         id: 4,
         value: 'Documentation',
-        link: '#',
+        link: '/documents',
     }
 ]
 
@@ -41,7 +43,9 @@ const Header = () => {
                 <div className={s.menuWrap}>
                     {
                         MENU.map(({value, link, id}) => (
-                            <a key={id} href={link} className={s.menuLink}> { value } </a>
+                            <A key={id} href={link}
+                               className={cn(s.menuLink, {[s.activeLink]: id === 1,})}>
+                                { value } </A>
                         ))
                     }
                 </div>
