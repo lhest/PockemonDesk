@@ -2,10 +2,12 @@ import React from 'react';
 import s from "./Button.module.scss";
 
 interface ButtonProps {
+    type: string,
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Button: React.FC<ButtonProps> = ({children, onClick}) => {
+    console.log(s)
     return (
         <button
             type = "button"
@@ -13,6 +15,7 @@ const Button: React.FC<ButtonProps> = ({children, onClick}) => {
             onClick={onClick}
         >
             {children}
+
         </button>
     );
 };
