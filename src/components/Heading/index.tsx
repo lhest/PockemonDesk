@@ -1,9 +1,14 @@
 import React from 'react';
+import s from "./Heading.module.scss";
 
-const Heading = () => {
+interface HeadingProps {
+    children: string
+}
+
+const Heading: React.FC = ({children}) => {
     return (
-        <h1>
-            the title
+        <h1 className={s.root}>
+            {children}
         </h1>
     );
 };

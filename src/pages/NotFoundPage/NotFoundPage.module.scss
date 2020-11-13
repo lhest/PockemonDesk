@@ -1,3 +1,5 @@
+@import "../../variables";
+
 .root {
   background: #D93E30;
 }
@@ -5,4 +7,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.layer {
+  color: aqua;
+}
+.text {
+  color: $danger;
+}
+
+.subTitle {
+  font-size: 40px;
+  position: absolute;
+  text-align: center;
+  z-index: -1;
 }
