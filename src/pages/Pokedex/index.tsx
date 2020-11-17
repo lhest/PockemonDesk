@@ -1,49 +1,30 @@
-import React, {useEffect, useState} from "react";
+import React, {ChangeEvent, useMemo, useState} from "react";
 import Layout from "../../components/Layout";
 import Heading from "../../components/Heading";
 import PokemonCard from "../../components/PokemonCard";
+import useData from "../../hook/getData";
 
 import s from "./Pokedex.module.scss";
 
-
-const usePokemons = () => {
-    const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isError, setIsError] = useState(false);
-
-    useEffect(() => {
-        const getPokemons = async () => {
-            setIsLoading(true);
-            try {
-                const response = await fetch('http://zar.hosthot.ru/api/v1/pokemons');
-                const result = await response.json();
-
-                setData(result);
-            } catch (e) {
-                setIsError(true);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-        getPokemons();
-    }, []);
-    return {
-        data,
-        isLoading,
-        isError
-    }
-}
-
  const PokedexPage = () => {
+    const [searchValue, setSearchValue] = useState('');
+    const [query, setQuery] = useState({});
+
     const {
         data,
         isLoading,
         isError
-    } = usePokemons();
+    } = useData('getPokemons', query, [searchValue]);
 
-    if (isLoading) {
-        return <div>Loading ...</div>
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value);
+        setQuery(() => ({
+            ...s,
+            name: e.target.value,
+        }))
     }
+
+
     if (isError) {
         return <div>There is an error</div>
     }
@@ -51,10 +32,13 @@ const usePokemons = () => {
         <>
             <Layout className={s.root}>
                 <Heading className={s.title} >
-                    {data.total} Pokemons for you to choose your favorite
+                    {!isLoading && data.total} Pokemons for you to choose your favorite
                 </Heading>
                 <div>
-                    {data.pokemons.map(item => <div>{item.name}</div>)}
+                    {!isLoading && data.pokemons.map(item => <div>{item.name}</div>)}
+                </div>
+                <div>
+                    <input type="text" value={searchValue} onChange={handleSearchChange}/>
                 </div>
             </Layout>
             <PokemonCard />

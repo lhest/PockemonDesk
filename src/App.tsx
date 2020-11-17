@@ -5,15 +5,15 @@ import NotFoundPage from "./pages/NotFoundPage";
 import Header from "./components/Header";
 
 const App = () => {
-  const match = useRoutes(routes);
+    const match = useRoutes(routes);
 
-  return match ? (
+    return match ? (
       <>
         <Header />
         {match}
       </>
 
-  ) : <NotFoundPage />;
-};
+    ) : <NotFoundPage />;
+    };
 
 export default App;
