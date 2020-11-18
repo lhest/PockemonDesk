@@ -8,7 +8,7 @@ import s from "./Pokedex.module.scss";
 
  const PokedexPage = () => {
     const [searchValue, setSearchValue] = useState('');
-    const [query, setQuery] = useState({});
+    const [query, setQuery] = useState({}); // query created
 
     const {
         data,
