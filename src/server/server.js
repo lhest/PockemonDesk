@@ -1,6 +1,11 @@
-'use strict';
-
-const Hapi = require('@hapi/hapi');
+import fs from 'fs';
+import path from 'path';
+import handlebars from 'handlebars';
+import Hapi from '@hapi/hapi';
+import React from "react";
+import ReactDom from "react-dom/server";
+import {setPath} from "hookrouter";
+import App from "../App";
 
 const init = async () => {
 
@@ -8,13 +13,20 @@ const init = async () => {
         port: 3000,
         host: 'localhost'
     });
+    await server.register(require('@hapi/inert'));
 
     server.route({
         method: 'GET',
-        path: '/',
+        path: '/main.js',
         handler: (request, h) => {
-
-            return 'Hello World!';
+            setPath(request.path);
+            const pathIndexHTML = path.join(process.cwd(), 'dist', 'index.html');
+            const template = handlebars.compile(fs.readFileSync(pathIndexHTML, 'utf8'));
+            const result = ReactDom.renderToString(<App />);
+            const page = template({
+                content: result
+            });
+            return result;
         }
     });
 
